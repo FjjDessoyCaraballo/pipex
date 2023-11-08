@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 13:51:35 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/08 15:35:03 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:42:08 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	ft_atoi(const char *s)
 	if (*s == '+' || *s == '-')
 	{
 		if (*s == '-')
-		{
 			sign *= -1;
-			s++;
-		}
 		s++;
 	}
 	while (*s != '\0' && (*s >= '0' && *s <= '9'))
@@ -41,8 +38,7 @@ int	ft_atoi(const char *s)
 			return ((int)9223372036854775807 - 1);
 		}
 	}
-	res = res * sign;
-	return ((int)res);
+	return ((int)res * sign);
 }
 /*
 int main(void)
