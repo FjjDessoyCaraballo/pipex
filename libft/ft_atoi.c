@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 13:51:35 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/08 14:27:42 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:32:24 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,32 @@
 
 int	ft_atoi(const char *s)
 {
-	int		i;
 	long	res;
 	int		sign;
 
-	i = 0;
 	sign = 1;
 	res = 0;
-	while ((s[i] >= 9 && s[i] <= 13) || s[i] == ' ')
+	while ((*s >= 9 && *s <= 13) || *s == ' ')
 		i++;
-	if (s[i] == '+')
-		i++;
-	else if (s[i] == '-')
+	if (*s == '+' || *s == '-')
 	{
-		sign *= -1;
+		if (*s == '-')
+		{
+			sign *= -1;
+			i++;
+		}
 		i++;
 	}
-	while (s[i] != '\0' && (s[i] >= '0' && s[i] <= '9'))
+	while (*s != '\0' && (*s >= '0' && *s <= '9'))
 	{
 		res = (res * 10) + (s[i] - '0');
 		i++;
-		if (res > 2147483648)
-			return (0);
+		if (res < 0)
+		{
+			if (sign == 1)
+				return (9223372036854775807);
+			return (9223372036854775808 - 1);
+		}
 	}
 	res = res * sign;
 	return ((int)res);
