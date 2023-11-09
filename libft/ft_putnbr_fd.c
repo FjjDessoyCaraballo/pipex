@@ -1,47 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 09:24:08 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/09 12:00:24 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/09 12:23:34 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/09 13:29:36 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_putnbr_fd(int n, int fd)
 {
-	size_t	i;
+	int		i;
+	char	buffer[13];
 
-	if (!s || !f)
-		return ;
-	if (s && f)
+	i = 10;
+	buffer[11] = '\0';
+	if (n == 0)
+		ft_putchar_fd('0', fd);
+	else if (n == -2147483648)
+		ft_putstr_fd("-2147483648", fd);
+	else
 	{
-		i = 0;
-		if (s[i] == '\0')
+		if (n < 0)
 		{
-			i++;
-			s++;
+			ft_putchar_fd('-', fd);
+			n *= -1;
 		}
-		while (*s)
-			f(i++, s++);
+		while (n > 0)
+		{
+			buffer[i] = 48 + (n % 10);
+			n /= 10;
+			i--;
+		}
+		ft_putstr_fd(&buffer[i + 1], fd);
 	}
 }
-/*
-void uppercase(unsigned int index, char *ch)
-{
-	index = 0;
-    *ch = toupper(*ch);
-}
-
-int main(void)
-{
-    char str[] = "\0\n\f\tHeLoLoO";
-    ft_striteri(str, uppercase);
-    printf("%s\n", str);
-
-    return 0;
-} // */

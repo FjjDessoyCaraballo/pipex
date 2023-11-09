@@ -1,47 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 09:24:08 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/09 12:00:24 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/09 12:36:02 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/09 13:28:07 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_putstr_fd(char *s, int fd)
 {
-	size_t	i;
-
-	if (!s || !f)
-		return ;
-	if (s && f)
+	if (s != NULL)
 	{
-		i = 0;
-		if (s[i] == '\0')
-		{
-			i++;
-			s++;
-		}
-		while (*s)
-			f(i++, s++);
+		write(fd, s, ft_strlen(s));
 	}
 }
-/*
-void uppercase(unsigned int index, char *ch)
-{
-	index = 0;
-    *ch = toupper(*ch);
-}
-
-int main(void)
-{
-    char str[] = "\0\n\f\tHeLoLoO";
-    ft_striteri(str, uppercase);
-    printf("%s\n", str);
-
-    return 0;
-} // */
