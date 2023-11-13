@@ -33,6 +33,11 @@ SRCS =	ft_bzero.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c
 
+BONUS = ft_lstadd_front.c\
+		ft_lstnew.c
+
+BOBJS = $(BONUS:.c=.o)
+
 %.o: %.c
 	gcc -Wall -Wextra -Werror -c $< -o $@
 
@@ -46,11 +51,14 @@ $(NAME): $(OFILES)
 	ar rcs $(NAME) $(OFILES)
 
 clean:
-	rm -rf $(OFILES)
+	rm -rf $(OFILES) $(BOBJS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean $(NAME)
+
+bonus: $(OFILES) $(BOBJS)
+	ar rcs $(NAME) $(OFILES) $(BOBJS)
 
 .PHONY: all clean fclean re

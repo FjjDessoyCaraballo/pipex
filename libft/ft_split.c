@@ -6,75 +6,86 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:10:40 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/06 16:07:27 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:40:12 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-// this function takes care of allocation of each new substring
-// ft_substring is used for allocation inside tab which points to tab_p
-static void	ft_allocate(char **tab, char const *s, char sep)
-{
-	char		**tab_p;
-	char const	*tmp;
 
-	tmp = s;
-	tab_p = tab;
-	while (*tmp)
+static int	ft_wordlen(char const *s, char c)
+{
+	int	len;
+
+	len = 0;
+	while (*s && *s != c)
 	{
-		while (*s == sep)
-			++s;
-		tmp = s;
-		while (*tmp && *tmp != sep)
-			++tmp;
-		if (*tmp == sep || tmp > s)
-		{
-			*tab_p = ft_substr(s, 0, tmp - s);
-			s = tmp;
-			++tab_p;
-		}
+		len++;
+		s++;
 	}
-	*tab_p = NULL;
+	return (len);
 }
-// counts how many strings are there to make space for further allocation
 
-static int	ft_count_words(char const *s, char sep)
+static int	ft_countwords(char const *s, char c)
 {
-	int	word_count;
+	int	count;
 
-	word_count = 0;
+	count = 0;
 	while (*s)
 	{
-		while (*s == sep)
-			++s;
-		if (*s)
-			++word_count;
-		while (*s && *s != sep)
-			++s;
+		if (*s != c)
+		{
+			count++;
+			s += ft_wordlen(s, c);
+		}
+		else
+			s++;
 	}
-	return (word_count);
+	return (count);
 }
-// size here is defined by ft_count_words and adds space for a null
-// ft_allocate allocates all letters until it finds the indicated split
+
+static void	*free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+	return (NULL);
+}
 
 char	**ft_split(char const *s, char c)
 {
-	char	**new;
-	int		size;
+	char	**array;
+	int		i;
+	int		count;
 
 	if (!s)
 		return (NULL);
-	size = ft_count_words(s, c);
-	new = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!new)
+	count = ft_countwords(s, c);
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
 		return (NULL);
-	ft_allocate(new, s, c);
-	return (new);
+	array[count] = NULL;
+	i = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			array[i] = ft_substr(s, 0, ft_wordlen(s, c));
+			if (!array[i++])
+				return (free_array(array));
+			s += ft_wordlen(s, c);
+		}
+		else
+			s++;
+	}
+	return (array);
 }
 /*
 int main(void)
 {
-  char str[] = "hello world";
+  char str[0] = "4";
   char sep = ' ';
   char **result = ft_split(str, sep);
   int i;
@@ -93,4 +104,4 @@ int main(void)
   else
 	  printf("Memory allocation failed.\n");
   return (0);
-} */
+} // */
