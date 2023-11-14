@@ -33,13 +33,19 @@ SRCS =	ft_bzero.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c
 
-BONUS = ft_lstadd_front.c\
-		ft_lstnew.c
+BONUS = ft_lstadd_front_bonus.c\
+		ft_lstnew_bonus.c\
+		ft_lstsize_bonus.c\
+		ft_lstlast_bonus.c\
+		ft_lstadd_back_bonus.c\
+		ft_lstdelone_bonus.c\
+		ft_lstclear_bonus.c\
+		ft_lstiter_bonus.c
 
 BOBJS = $(BONUS:.c=.o)
 
 %.o: %.c
-	gcc -Wall -Wextra -Werror -c $< -o $@
+	cc -Wall -Wextra -Werror -c $< -o $@
 
 OFILES = $(SRCS:.c=.o)
 
@@ -58,7 +64,10 @@ fclean: clean
 
 re: fclean $(NAME)
 
-bonus: $(OFILES) $(BOBJS)
+bonus: .bonus
+
+.bonus: $(OFILES) $(BOBJS)
 	ar rcs $(NAME) $(OFILES) $(BOBJS)
+	touch .bonus
 
 .PHONY: all clean fclean re
