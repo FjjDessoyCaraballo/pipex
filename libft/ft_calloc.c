@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:38:10 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/10/31 09:50:41 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:06:06 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,15 @@
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;
+	size_t	a;
 
-	ptr = malloc(count * size);
+	a = count * size;
+	if (a < count || a < size)
+		return (NULL);
+	ptr = malloc(a);
+	if (!ptr)
+		return (NULL);
 	if (ptr)
-	{
-		ft_memset(ptr, 0, count * size);
-	}
+		ft_memset(ptr, 0, a);
 	return (ptr);
 }
-/*
-int main(void)
-{
-    // Both of these allocate the same number of bytes,
-    // which is the amount of bytes that is required to
-    // store 5 int values.
-
-    // The memory allocated by calloc will be
-    // zero-initialized, but the memory allocated with
-    // malloc will be uninitialized so reading it would be
-    // undefined behavior.
-    int* allocated_with_malloc = malloc(5 * sizeof(int));
-    int* allocated_with_calloc = ft_calloc(5, sizeof(int));
-
-    // As you can see, all of the values are initialized to
-    // zero.
-    printf("Values of allocated_with_calloc: ");
-    for (size_t i = 0; i < 5; ++i) {
-        printf("%d ", allocated_with_calloc[i]);
-    }
-    putchar('\n');
-
-    // This malloc requests 1 terabyte of dynamic memory,
-    // which is unavailable in this case, and so the
-    // allocation fails and returns NULL.
-    int *failed_malloc = malloc(10000000000000);
-    if (failed_malloc == NULL) {
-        printf("The allocation failed, the value of "
-               "failed_malloc is: %p",
-               (void*)failed_malloc);
-    }
-
-    // Remember to always free dynamically allocated memory.
-    free(allocated_with_malloc);
-	free(failed_malloc);
-    free(allocated_with_calloc);
-} // */

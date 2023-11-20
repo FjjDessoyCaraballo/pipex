@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:48:59 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/14 13:11:17 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:06:04 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <ctype.h>
 
 int		ft_atoi(const char *s);
 void	ft_bzero(void *s, size_t n);
