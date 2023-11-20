@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 10:08:53 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/01 10:28:34 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:13:55 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,24 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 {
 	unsigned char	*csrc;
 	unsigned char	*cdst;
+	size_t			i;
 
 	csrc = (unsigned char *)src;
 	cdst = (unsigned char *)dst;
-	if (dst == src || n == 0)
-		return (dst);
-	if (cdst < csrc || cdst >= csrc + n)
-		return (ft_memcpy(dst, src, n));
-	ft_memmove(cdst + n - 1, csrc + n - 1, 1);
-	ft_memmove(cdst, csrc, n - 1);
-	return (dst);
+	i = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	while (dst < src && i < len)
+	{
+		cdst[i] = csrc[i];
+		i++;
+	}
+	while (dst > src && len > 0)
+	{
+		cdst[len - 1] = csrc[len - 1];
+		len--;
+	}
+	return ((void *)cdst);
 }
 /*
 int main(void)
