@@ -35,24 +35,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (NULL);
 }
-/*
-
-int	main(void)
-{
-    const char *testString = "Hello, World!";
-    int characterToFind = 'o';
-
-    char *result = ft_strrchr(testString, characterToFind);
-
-    if (result != NULL)
-    {
-        printf("Character '%c' found at position: %ld\n", characterToFind,
-		result - testString);
-    }
-    else
-    {
-        printf("Character '%c' not found in the string.\n", characterToFind);
-    }
-
-    return (0);
-}*/

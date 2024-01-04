@@ -33,20 +33,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (0);
 	return (*str1 - *str2);
 }
-/* // TEST
-int main(void)
-{
-	char str1[] = "hello";
-	char str2[] = "hello ";
-
-	int result = ft_strncmp(str1,str2,6);
-
-	if (result == 0)
-	{
-		printf("The strings are the same\n");
-	}
-	else
-	{
-		printf("the strings are not the same\n");
-	}
-}*/	

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -19,18 +17,3 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
-/*
-int main(void)
-{
-	char c1 = 'h';
-	char c2 = 'H';
-	char c3 = '#';
-
-	int dig1 = ft_isalpha(c1);
-	int dig2 = ft_isalpha(c2);
-	int dig3 = ft_isalpha(c3);
-
-	printf("%d\n", dig1);
-	printf("%d\n", dig2);
-	printf("%d\n", dig3);
-} // */

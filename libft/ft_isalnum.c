@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_isalnum(int c)
 {
 	if ((c < 48 || c > 57) && (c < 65 || c > 90) && (c < 97 || c > 122))
@@ -21,21 +19,3 @@ int	ft_isalnum(int c)
 	else
 		return (1);
 }
-/*
-int main(void)
-{
-	int c1 = 'H';
-	int c2 = 'h';
-	int c3 = '3';
-	int c4 = '#';
-
-	int dig1 = ft_isalnum(c1);
-	int dig2 = ft_isalnum(c2);
-	int dig3 = ft_isalnum(c3);
-	int dig4 = ft_isalnum(c4);
-
-	printf("%d\n", dig1);
-	printf("%d\n", dig2);
-	printf("%d\n", dig3);
-	printf("%d\n", dig4);
-} // */

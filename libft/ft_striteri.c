@@ -30,18 +30,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 			f(i++, s++);
 	}
 }
-/*
-void uppercase(unsigned int index, char *ch)
-{
-	index = 0;
-    *ch = toupper(*ch);
-}
-
-int main(void)
-{
-    char str[] = "\0\n\f\tHeLoLoO";
-    ft_striteri(str, uppercase);
-    printf("%s\n", str);
-
-    return 0;
-} // */

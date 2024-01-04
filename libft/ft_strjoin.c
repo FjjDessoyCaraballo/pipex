@@ -35,12 +35,3 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	return (NULL);
 }
-/* TEST
-int main(void)
-{
-	char str1[] = "";
-	char str2[] = 127;
-
-	printf("%s\n", ft_strjoin(str1, str2));
-	return (0);
-} // */

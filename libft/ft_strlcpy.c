@@ -34,14 +34,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t n)
 	}
 	return (src_len);
 }
-/* TEST
-#include <string.h>
-#include <stdio.h>
-
-int main(void)
-{
-	char src[] = "Test string";
-	char dest[] = "alsofkiopsafjoudjgiusdhguidf";
-	ft_strlcpy(dest,src,sizeof(src));
-	printf("%s",dest);
-} // */

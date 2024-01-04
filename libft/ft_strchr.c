@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 char	*ft_strchr(const char *s, int c)
 {
 	char	ch;
@@ -31,22 +29,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (&str[i]);
 }
-/*
-int	main(void) {
-    const char *testString = "Hello, World!";
-    int characterToFind = 'o';
-
-    char *result = ft_strchr(testString, characterToFind);
-
-    if (result != NULL) 
-    {
-        printf("Character '%c' found at position: %ld\n", characterToFind,
-		result - testString);
-    } 
-    else 
-    {
-        printf("Character '%c' not found in the string.\n", characterToFind);
-    }
-
-    return (0);
-} //  */

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_atoi(const char *s)
 {
 	long	res;
@@ -40,12 +38,3 @@ int	ft_atoi(const char *s)
 	}
 	return ((int)res * sign);
 }
-/*
-int main(void)
-{
-	char str[] = "-9147483648";
-
-	int val = ft_atoi(str);
-	printf("%d \n", val);
-	return (0);
-} // */

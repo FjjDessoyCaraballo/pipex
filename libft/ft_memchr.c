@@ -32,13 +32,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (found_char);
 }
-/*
-int main(void)
-{
-	char s[] = "Coitus Supremus";
-
-	char *ptr = memchr(s, 'c', sizeof(s));
-	
-	printf("piss off %s\n", ptr);
-	return (0);
-}*/

@@ -35,16 +35,3 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	}
 	return ((void *)cdst);
 }
-/*
-int main(void)
-{
-	char dest[] = "oldstring";
-	char sorc[] = "newstring";
-
-	printf("Before memmove dest = %s, src = %s\n", dest, sorc);
-	ft_memmove(dest, sorc, 2);
-	//memmove(dest, sorc, 2);
-	printf("After memove dest = %s, src = %s\n", dest, sorc);
-	
-	return (0);
-} */

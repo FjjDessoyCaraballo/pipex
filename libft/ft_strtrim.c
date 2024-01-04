@@ -35,10 +35,3 @@ char	*ft_strtrim(const char *s1, const char *set)
 	ft_strlcpy(str, &s1[i], j - i + 2);
 	return (str);
 }
-/*
-int main(void)
-{
-	printf("%s\n", ft_strtrim("abqbcc", "abc"));
-	printf("%s\n", ft_strtrim("xavocadoyz", "xyz"));
-	return (0);
-} // */

@@ -61,13 +61,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t n)
 		total_len = n + src_len;
 	return (total_len);
 }
-/*
-int main(void)
-{
-	char str1[20] = "Hello";
-	char str2[] = " World!";
-
-	printf("%s", strlcat(str1, str2, 3));
-
-    return (0);
-}*/

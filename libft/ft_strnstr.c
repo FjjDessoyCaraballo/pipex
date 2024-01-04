@@ -35,13 +35,3 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (NULL);
 }
-/*
-int main(void)
-{
-    char test[50];
-
-    strcpy(test, "Hey guys, you you");
-
-    printf("%p\n", ft_strnstr(test, "you", 10));
-    printf("%p\n", strnstr(test, "you", 10));
-} // */

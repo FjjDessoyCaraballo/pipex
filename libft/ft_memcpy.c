@@ -30,22 +30,3 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	}
 	return (cdst);
 }
-/* TEST
-int main(void)
-{
-	int str1[] = {1,3,2,1,3,4};
-	int str2[] = {4,2};
-
-	puts("str1 before memcpy");
-	printf(str1);
-
-	// copied content from str2 to str1
-
-	ft_memcpy(str1, str2, 2);
-	puts("\nstr1 after memcpy ");
-	printf(str1);
-
-	memcpy(str1, str2, 2);
-	puts(str1);
-
-}*/

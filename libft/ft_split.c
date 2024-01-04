@@ -82,26 +82,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (array);
 }
-/*
-int main(void)
-{
-  char str[0] = "4";
-  char sep = ' ';
-  char **result = ft_split(str, sep);
-  int i;
-
-  if (result)
-  {
-	  i = 0;
-	  while (result[i] != NULL)
-	  {
-		  printf("Word %d: %s\n", i + 1, result[i]);
-		  free (result[i]);
-		  i++;
-	  }
-	  free (result);
-  }
-  else
-	  printf("Memory allocation failed.\n");
-  return (0);
-} // */

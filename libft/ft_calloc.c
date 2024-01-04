@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:38:10 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/17 15:06:06 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:52:41 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t	a;
 
 	a = count * size;
-	if (a < count || a < size)
+	if (a < count && a < size)
 		return (NULL);
 	ptr = malloc(a);
 	if (!ptr)
