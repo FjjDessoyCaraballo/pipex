@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: skipina <skipina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 10:55:57 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/10 10:55:59 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/01/12 22:19:12 by skipina           #+#    #+#             */
+/*   Updated: 2024/01/14 15:03:15 by jkangash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <unistd.h>
 
-int main(int argc, char **argv, char **envp)
+void	ft_putchar(char c)
+
 {
-	t_data	*data;
-	// need the environment path
-	pipex(data, argc, argv);
-	return (0);
+	write(1, &c, 1);
 }

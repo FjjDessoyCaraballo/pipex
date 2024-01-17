@@ -14,7 +14,7 @@
 
 static t_data ft_init(void)
 {
-	t_data data;
+	t_data	data;
 
 	data.envp = NULL;
 	data.cmd_options = NULL;
@@ -24,7 +24,7 @@ static t_data ft_init(void)
 	data.pipe = NULL;
 	data.pids = NULL;
 	data.nb_cmds = 0;
-	data.ac = NULL;
+	data.ac = 0;
 	data.child = 0;
 	data.cmd_path = NULL;
 	data.heredoc = 0;
@@ -33,35 +33,35 @@ static t_data ft_init(void)
 
 void ft_check_args(int argc, char **argv)
 {
-	if (argc >= 5)
+	if (argc != 5)
 	{
-		perror("Error: too many arguments.\n");
-		exit(EXIT_FAILURE);
-	}
-	if (argc < 4)
-	{
-		perror("Error: too little arguments.\n");
+		perror("Wrong number of arguments");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		if (access(argv[1], F_OK | W_OK | X_OK) == -1)
 		{
-			perror("Error: first file does not exist.\n");
+			perror("First file not executable/accessible");
 			exit(EXIT_FAILURE);
 		}
-		if (access(argv[4], F_OK | W_OK | X_OK) == -1)
+		if (access(argv[5], F_OK | W_OK | X_OK) == -1)
 		{
-			perror("Error: second file does not exist.\n");
+			perror("First file not executable/accessible");
 			exit(EXIT_FAILURE);
 		}
 	}
 }
 
+void env_parse(char **envp) //project is not parsing the path yet
+{
+	
+} 
+
 void ft_parse_cmds(t_data *data, int argc, char **argv)
 {
-	char *cmd1;
-	char *cmd2;
+	char	*cmd1;
+	char	*cmd2;
 
 	cmd1 = argv[2];
 	cmd2 = argv[3];
@@ -71,7 +71,7 @@ void ft_parse_cmds(t_data *data, int argc, char **argv)
 
 void ft_cleanup(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->nb_cmds)
@@ -88,10 +88,90 @@ void ft_cleanup(t_data *data)
 void ft_parse_args(t_data *data, int argc, char **argv)
 {
 	ft_check_args(argc, argv);
-	ft_init(data);
+	ft_init();
 	ft_parse_cmds(data, argc, argv);
 
 	// parsing here
+	if (argc == 6 && ft_strncmp(argv[4], "<", sizeof(size_t)) && ft_strncmp(argv[4], ">", sizeof(size_t)))
+	{
+		data->heredoc = 1;
+		data->fd_in = open(argv[4], O_RDONLY);
+	}
+	else
+		data->fd_in = open(argv[4], O_RDONLY);
 
 	ft_cleanup(data);
+}
+
+void pipex(t_data *data, int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	ft_parse_args(data, argc, argv);
+	data->pipe = malloc(sizeof(int) * (data->nb_cmds - 1));
+	if (!data->pipe)
+	{
+		perror("Pipe malloc failure");
+		exit(EXIT_FAILURE);
+	}
+	data->pids = malloc(sizeof(int) * data->nb_cmds);
+	if (!data->pids)
+	{
+		perror("Pids malloc failure");
+		exit(EXIT_FAILURE);
+	}
+	while (i < data->nb_cmds - 1)
+	{
+		pipe(data->pipe + i);
+		i++;
+	}
+	i = 0;
+	while (i < data->nb_cmds)
+	{
+		data->child = fork();
+		if (data->child == 0)
+		{
+			if (i == 0)
+			{
+				dup2(data->fd_in, STDIN_FILENO);
+				dup2(data->pipe[i], STDOUT_FILENO);
+			}
+			else if (i == data->nb_cmds - 1)
+			{
+				dup2(data->pipe[i - 1], STDIN_FILENO);
+				dup2(data->fd_out, STDOUT_FILENO);
+			}
+			else
+			{
+				dup2(data->pipe[i - 1], STDIN_FILENO);
+				dup2(data->pipe[i], STDOUT_FILENO);
+			}
+			execve(data->cmd_path, data->cmd_options, data->envp);
+			perror("Execve failure: execution path invalid");
+			exit(EXIT_FAILURE);
+		}
+		else if (data->child < 0)
+		{
+			perror("Fork failure");
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			data->pids[i] = data->child;
+			i++;
+		}
+	}
+	i = 0;
+	while (i < data->nb_cmds - 1)
+	{
+		close(data->pipe[i]);
+		i++;
+	}
+	i = 0;
+	while (i < data->nb_cmds)
+	{
+		waitpid(data->pids[i], NULL, 0);
+		i++;
+	}
 }

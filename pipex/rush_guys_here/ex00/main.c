@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: skipina <skipina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 10:55:57 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/10 10:55:59 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/01/12 22:17:11 by skipina           #+#    #+#             */
+/*   Updated: 2024/01/14 14:51:35 by jkangash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+void	rush(int x, int y);
 
-#include "pipex.h"
-
-int main(int argc, char **argv, char **envp)
+int	main(void)
 {
-	t_data	*data;
-	// need the environment path
-	pipex(data, argc, argv);
+	rush(5, 5);
 	return (0);
 }

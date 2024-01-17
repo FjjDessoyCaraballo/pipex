@@ -40,9 +40,9 @@
 /* struct for initializing pipes (data) */
 typedef struct s_data
 {
-	char	**envp; //environment pointer
+	char	**envp;
 	char	**cmd_options;
-	char	**av; //argument vector
+	char	**av;
 	char	*cmd_path;
 	int		heredoc;
 	int		fd_out;
@@ -50,15 +50,27 @@ typedef struct s_data
 	int		*pipe;
 	int		*pids;
 	int		nb_cmds;
-	int		ac; // argc
+	int		ac;
 	int		child;
 }			t_data;
 
 /* functions */
-static t_data	ft_init(void)
+static t_data	ft_init(void);
 void			ft_check_args(int argc, char **argv);
 void			ft_parse_cmds(t_data *data, int argc, char **argv);
 void			ft_parse_args(t_data *data, int argc, char **argv);
 void			ft_cleanup(t_data* data);
+void			pipex(t_data *data, int argc, char **argv);
+
+/* libft functions */
+char 			**ft_split(const char *s, char c);
+int 			ft_strncmp(const char *s1, const char *s2, size_t n);
+void			*ft_calloc(size_t count, size_t size);
+size_t			ft_strlen(const char *s);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
+char			*free_array(char **array);
+static int		ft_countwords(char const *s, char c);
+static int		ft_wordlen(char const *s, char c);
+void			*ft_memset(void *s, int c, size_t len);
 
 #endif
