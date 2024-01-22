@@ -12,22 +12,25 @@
 
 #include "pipex.h"
 
-static t_data ft_init(void)
+static t_data *ft_init(void)
 {
-	t_data	data;
+	t_data	*data;
 
-	data.envp = NULL;
-	data.cmd_options = NULL;
-	data.av = NULL;
-	data.fd_in = -1;
-	data.fd_out = -1;
-	data.pipe = NULL;
-	data.pids = NULL;
-	data.nb_cmds = 0;
-	data.ac = 0;
-	data.child = 0;
-	data.cmd_path = NULL;
-	data.heredoc = 0;
+	data = (t_data *)malloc(sizeof(t_data));
+	if (data == NULL)
+		return (NULL);
+	data->envp = NULL;
+	data->cmd_options = NULL;
+	data->av = NULL;
+	data->fd_in = -1;
+	data->fd_out = -1;
+	data->pipe = NULL;
+	data->pids = NULL;
+	data->nb_cmds = 0;
+	data->ac = 0;
+	data->child = 0;
+	data->cmd_path = NULL;
+	data->heredoc = 0;
 	return (data);
 }
 
@@ -40,23 +43,23 @@ void ft_check_args(int argc, char **argv)
 	}
 	else
 	{
-		if (access(argv[1], F_OK | W_OK | X_OK) == -1)
+		if (access(argv[1], F_OK | R_OK) == -1)
 		{
-			perror("First file not executable/accessible");
+			perror("First file not accessible");
 			exit(EXIT_FAILURE);
 		}
-		if (access(argv[5], F_OK | W_OK | X_OK) == -1)
+		if (access(argv[4], F_OK | W_OK) == -1)
 		{
-			perror("First file not executable/accessible");
+			perror("Second file not accessible");
 			exit(EXIT_FAILURE);
 		}
 	}
 }
 
-void env_parse(char **envp) //project is not parsing the path yet
-{
+// void ft_getenv(char **envp) //project is not parsing the path yet
+// {
 	
-} 
+// } 
 
 void ft_parse_cmds(t_data *data, int argc, char **argv)
 {
@@ -85,22 +88,21 @@ void ft_cleanup(t_data *data)
 	free(data->pids);
 }
 
-void ft_parse_args(t_data *data, int argc, char **argv)
+t_data *ft_parse_args(t_data *data, int argc, char **argv)
 {
 	ft_check_args(argc, argv);
-	ft_init();
+	data = ft_init();
 	ft_parse_cmds(data, argc, argv);
-
 	// parsing here
-	if (argc == 6 && ft_strncmp(argv[4], "<", sizeof(size_t)) && ft_strncmp(argv[4], ">", sizeof(size_t)))
+	if (argc == 5 && ft_strncmp(argv[4], "<", sizeof(size_t)) && ft_strncmp(argv[4], ">", sizeof(size_t)))
 	{
 		data->heredoc = 1;
 		data->fd_in = open(argv[4], O_RDONLY);
 	}
 	else
 		data->fd_in = open(argv[4], O_RDONLY);
-
 	ft_cleanup(data);
+	return (data);
 }
 
 void pipex(t_data *data, int argc, char **argv)
@@ -108,13 +110,14 @@ void pipex(t_data *data, int argc, char **argv)
 	int	i;
 
 	i = 0;
-	ft_parse_args(data, argc, argv);
-	data->pipe = malloc(sizeof(int) * (data->nb_cmds - 1));
+	data = ft_parse_args(data, argc, argv);
+	data->pipe = malloc(sizeof(int) * (data->nb_cmds * 2));
 	if (!data->pipe)
 	{
 		perror("Pipe malloc failure");
 		exit(EXIT_FAILURE);
 	}
+	
 	data->pids = malloc(sizeof(int) * data->nb_cmds);
 	if (!data->pids)
 	{

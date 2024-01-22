@@ -55,10 +55,10 @@ typedef struct s_data
 }			t_data;
 
 /* functions */
-static t_data	ft_init(void);
+static t_data	*ft_init(void);
 void			ft_check_args(int argc, char **argv);
 void			ft_parse_cmds(t_data *data, int argc, char **argv);
-void			ft_parse_args(t_data *data, int argc, char **argv);
+t_data			*ft_parse_args(t_data *data, int argc, char **argv);
 void			ft_cleanup(t_data* data);
 void			pipex(t_data *data, int argc, char **argv);
 
