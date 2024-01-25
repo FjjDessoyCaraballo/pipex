@@ -1,4 +1,11 @@
-SRCS =	ft_bzero.c\
+NAME = libft.a
+
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+OBJ_DIR = obj
+
+VPATH = gnl:ft_printf:libft
+
+SRC =	ft_bzero.c\
 		ft_calloc.c\
 		ft_isalnum.c\
 		ft_isalpha.c\
@@ -31,44 +38,46 @@ SRCS =	ft_bzero.c\
 		ft_striteri.c\
 		ft_putnbr_fd.c\
 		ft_putstr_fd.c\
-		ft_putendl_fd.c
-
-BONUS = ft_lstadd_front_bonus.c\
+		ft_putendl_fd.c\
+		ft_lstadd_front_bonus.c\
 		ft_lstnew_bonus.c\
 		ft_lstsize_bonus.c\
 		ft_lstlast_bonus.c\
 		ft_lstadd_back_bonus.c\
 		ft_lstdelone_bonus.c\
 		ft_lstclear_bonus.c\
-		ft_lstiter_bonus.c
+		ft_lstiter_bonus.c\
+		format_check.c\
+		ft_hex.c\
+		ft_char.c\
+		ft_pointer.c\
+		ft_printf.c\
+		ft_nbr.c\
+		ft_str.c\
+		ft_unsig_nbr.c\
+		get_next_line.c\
+		get_next_line_utils.c
 
-BOBJS = $(BONUS:.c=.o)
 
-%.o: %.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+CFLAGS = -Wall -Wextra -Werror -MMD -g
+INCFLAGS = -Iincludes
 
-OFILES = $(SRCS:.c=.o)
+DEP = $(OBJ:.o=.d)
 
-NAME = libft.a
+all:  $(NAME)
 
-all: $(NAME)
+$(NAME): $(OBJ)
+	@ar rc $(NAME) $(OBJ)
 
-$(NAME): $(OFILES)
-	ar rcs $(NAME) $(OFILES)
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(OBJ_DIR)
+	@cc $(CFLAGS) $(INCFLAGS) -c $< -o $@
+
+-include $(DEP)
 
 clean:
-	rm -rf $(OFILES) $(BOBJS)
+	@rm -rf $(OBJ_DIR) 
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f .bonus
-
-re: fclean $(NAME)
-
-bonus: .bonus
-
-.bonus: $(OFILES) $(BOBJS)
-	ar rcs $(NAME) $(OFILES) $(BOBJS)
-	touch .bonus
-
-.PHONY: all clean fclean re
+	@rm -f $(NAME)
+re: fclean all
