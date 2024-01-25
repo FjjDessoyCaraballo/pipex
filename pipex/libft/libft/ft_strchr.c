@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr.c                                           :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:11:07 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:11:09 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/10/26 16:45:27 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/10/30 11:33:15 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_nbr(int n, int *check)
+char	*ft_strchr(const char *s, int c)
 {
-	int	count;
+	char	ch;
+	char	*str;
+	int		i;
 
-	count = 0;
-	if (n == -2147483648)
-		count += write(1, "-2147483648", 11);
-	else if (n < 0)
+	i = 0;
+	str = (char *)s;
+	ch = (char)c;
+	while (str[i] != ch)
 	{
-		count += ft_char('-', check);
-		count += ft_nbr(-n, check);
+		if (str[i] == '\0')
+		{
+			return (0);
+		}
+		i++;
 	}
-	else if (n >= 10)
-	{
-		count += ft_nbr(n / 10, check);
-		count += ft_char(n % 10 + '0', check);
-	}
-	else
-		count += ft_char(n % 10 + '0', check);
-	return (count);
+	return (&str[i]);
 }

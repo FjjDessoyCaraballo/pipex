@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 12:06:53 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:10:14 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/09 12:36:02 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/09 13:28:07 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_hex(unsigned long n, int caps, int *check)
+void	ft_putstr_fd(char *s, int fd)
 {
-	int	count;
-
-	count = 0;
-	if (n >= 16)
+	if (s != NULL)
 	{
-		count += ft_hex((n / 16), caps, check);
-		count += ft_hex((n % 16), caps, check);
-		if (count == -1)
-			return (-1);
+		write(fd, s, ft_strlen(s));
 	}
-	else if ((caps == 0) && (n >= 10 && n <= 15))
-		count += ft_char(n + 87, check);
-	else if ((caps == 1) && (n >= 10 && n <= 15))
-		count += ft_char(n + 55, check);
-	else if (n < 10)
-		count += ft_nbr(n, check);
-	return (count);
 }

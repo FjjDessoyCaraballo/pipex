@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex.c                                           :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 12:06:53 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:10:14 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/10/26 10:08:53 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/20 16:33:41 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_hex(unsigned long n, int caps, int *check)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int	count;
+	unsigned char	*csrc;
+	unsigned char	*cdst;
+	size_t			i;
 
-	count = 0;
-	if (n >= 16)
+	csrc = (unsigned char *)src;
+	cdst = (unsigned char *)dst;
+	i = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	while (dst < src && i < len)
 	{
-		count += ft_hex((n / 16), caps, check);
-		count += ft_hex((n % 16), caps, check);
-		if (count == -1)
-			return (-1);
+		cdst[i] = csrc[i];
+		i++;
 	}
-	else if ((caps == 0) && (n >= 10 && n <= 15))
-		count += ft_char(n + 87, check);
-	else if ((caps == 1) && (n >= 10 && n <= 15))
-		count += ft_char(n + 55, check);
-	else if (n < 10)
-		count += ft_nbr(n, check);
-	return (count);
+	while (dst > src && len > 0)
+	{
+		cdst[len - 1] = csrc[len - 1];
+		len--;
+	}
+	return ((void *)cdst);
 }

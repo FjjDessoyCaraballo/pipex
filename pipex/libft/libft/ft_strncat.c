@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex.c                                           :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 12:06:53 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:10:14 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/01 10:06:54 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/01 10:22:50 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_hex(unsigned long n, int caps, int *check)
+char	*ft_strncat(char *dst, const char *src, size_t n)
 {
-	int	count;
+	size_t	i;
+	size_t	j;
 
-	count = 0;
-	if (n >= 16)
+	i = 0;
+	j = 0;
+	while (dst[i] != '\0')
 	{
-		count += ft_hex((n / 16), caps, check);
-		count += ft_hex((n % 16), caps, check);
-		if (count == -1)
-			return (-1);
+		i++;
 	}
-	else if ((caps == 0) && (n >= 10 && n <= 15))
-		count += ft_char(n + 87, check);
-	else if ((caps == 1) && (n >= 10 && n <= 15))
-		count += ft_char(n + 55, check);
-	else if (n < 10)
-		count += ft_nbr(n, check);
-	return (count);
+	while (src[j] != '\0' && j < n)
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

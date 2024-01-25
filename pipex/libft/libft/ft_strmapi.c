@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr.c                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:11:07 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:11:09 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/08 09:25:47 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/08 12:12:46 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nbr(int n, int *check)
+static char	*str_new(size_t n)
 {
-	int	count;
+	char	*str;
 
-	count = 0;
-	if (n == -2147483648)
-		count += write(1, "-2147483648", 11);
-	else if (n < 0)
-	{
-		count += ft_char('-', check);
-		count += ft_nbr(-n, check);
-	}
-	else if (n >= 10)
-	{
-		count += ft_nbr(n / 10, check);
-		count += ft_char(n % 10 + '0', check);
-	}
-	else
-		count += ft_char(n % 10 + '0', check);
-	return (count);
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	if (!str)
+		return (NULL);
+	return (str);
+}
+
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char	*result;
+	char	*str;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	str = str_new(ft_strlen(s));
+	if (!str)
+		return (NULL);
+	i = 0;
+	result = str;
+	while (*s)
+		*str++ = f(i++, *s++);
+	*str = '\0';
+	return (result);
 }

@@ -14,11 +14,9 @@
 # define PIPEX_H
 
 /* libft and printf */
-# include "libft/libft.h"
-# include "libft/ft_printf/ft_printf.h"
+# include "libft/libft.a"
 
 /* permitted libraries */
-
 /* for close, read, write, unlink, dup, dup2, execve, fork, pipe */
 # include <unistd.h>
 
@@ -42,6 +40,7 @@ typedef struct s_data
 {
 	char	**envp;
 	char	**cmd_options;
+	char	**cmd_options2;
 	char	**av;
 	char	*cmd_path;
 	int		heredoc;
@@ -54,23 +53,14 @@ typedef struct s_data
 	int		child;
 }			t_data;
 
-/* functions */
+/* pipex functions */
 static t_data	*ft_init(void);
 void			ft_check_args(int argc, char **argv);
 void			ft_parse_cmds(t_data *data, int argc, char **argv);
-t_data			*ft_parse_args(t_data *data, int argc, char **argv);
-void			ft_cleanup(t_data* data);
-void			pipex(t_data *data, int argc, char **argv);
-
-/* libft functions */
-char 			**ft_split(const char *s, char c);
-int 			ft_strncmp(const char *s1, const char *s2, size_t n);
-void			*ft_calloc(size_t count, size_t size);
-size_t			ft_strlen(const char *s);
-char			*ft_substr(char const *s, unsigned int start, size_t len);
-char			*free_array(char **array);
-static int		ft_countwords(char const *s, char c);
-static int		ft_wordlen(char const *s, char c);
-void			*ft_memset(void *s, int c, size_t len);
+t_data			*ft_parse_args(int argc, char **argv);
+void			ft_cleanup(t_data *data);
+void			ft_getenv(t_data *data, char **envp);
+char			*ft_getenv_values(char **envp, const char *path_env);
+void			pipex(t_data *data, int argc, char **argv, char **envp);
 
 #endif

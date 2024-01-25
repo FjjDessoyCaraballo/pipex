@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex.c                                           :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 12:06:53 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:10:14 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/01 16:14:55 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/07 12:22:36 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_hex(unsigned long n, int caps, int *check)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	int	count;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	count = 0;
-	if (n >= 16)
+	if (s1 != NULL & s2 != NULL)
 	{
-		count += ft_hex((n / 16), caps, check);
-		count += ft_hex((n % 16), caps, check);
-		if (count == -1)
-			return (-1);
+		str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+		if (!str)
+			return (NULL);
+		i = 0;
+		j = 0;
+		while (s1[i])
+			str[j++] = s1[i++];
+		i = 0;
+		while (s2[i])
+			str[j++] = s2[i++];
+		str[j] = '\0';
+		return (str);
 	}
-	else if ((caps == 0) && (n >= 10 && n <= 15))
-		count += ft_char(n + 87, check);
-	else if ((caps == 1) && (n >= 10 && n <= 15))
-		count += ft_char(n + 55, check);
-	else if (n < 10)
-		count += ft_nbr(n, check);
-	return (count);
+	return (NULL);
 }

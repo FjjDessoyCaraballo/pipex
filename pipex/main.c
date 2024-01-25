@@ -12,10 +12,12 @@
 
 #include "pipex.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-	// need the environment path
-	pipex(data, argc, argv);
+
+	data = ft_parse_args(argc, argv);
+	pipex(data, argc, argv, envp);
+	ft_cleanup(data);
 	return (0);
 }

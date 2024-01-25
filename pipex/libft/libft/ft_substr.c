@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr.c                                           :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:11:07 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:11:09 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/11/01 16:01:05 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/10 12:39:42 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nbr(int n, int *check)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int	count;
+	char	*new_str;
+	size_t	i;
+	size_t	j;
+	size_t	l;
 
-	count = 0;
-	if (n == -2147483648)
-		count += write(1, "-2147483648", 11);
-	else if (n < 0)
-	{
-		count += ft_char('-', check);
-		count += ft_nbr(-n, check);
-	}
-	else if (n >= 10)
-	{
-		count += ft_nbr(n / 10, check);
-		count += ft_char(n % 10 + '0', check);
-	}
-	else
-		count += ft_char(n % 10 + '0', check);
-	return (count);
+	l = ft_strlen(s);
+	if (!s || start > l)
+		return ((char *)ft_calloc(1, 1));
+	l = ft_strlen(s + start);
+	if (l >= len)
+		l = len;
+	new_str = (char *)malloc(l + 1);
+	if (!new_str)
+		return (NULL);
+	i = start;
+	j = 0;
+	while (i < ft_strlen(s) && j < len)
+		new_str[j++] = s[i++];
+	new_str[j] = '\0';
+	return (new_str);
 }

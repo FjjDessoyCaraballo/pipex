@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr.c                                           :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:11:07 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:11:09 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/10/30 12:00:08 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/10/31 10:45:12 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_nbr(int n, int *check)
+int	ft_tolower(int c)
 {
-	int	count;
-
-	count = 0;
-	if (n == -2147483648)
-		count += write(1, "-2147483648", 11);
-	else if (n < 0)
-	{
-		count += ft_char('-', check);
-		count += ft_nbr(-n, check);
-	}
-	else if (n >= 10)
-	{
-		count += ft_nbr(n / 10, check);
-		count += ft_char(n % 10 + '0', check);
-	}
+	if (c >= 'A' && c <= 'Z')
+		return (c + ('a' - 'A'));
 	else
-		count += ft_char(n % 10 + '0', check);
-	return (count);
+		return (c);
 }

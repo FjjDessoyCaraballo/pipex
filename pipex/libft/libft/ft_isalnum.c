@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr.c                                           :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:11:07 by fdessoy-          #+#    #+#             */
-/*   Updated: 2023/11/23 15:11:09 by fdessoy-         ###   ########.fr       */
+/*   Created: 2023/10/24 11:11:12 by fdessoy-          #+#    #+#             */
+/*   Updated: 2023/11/07 12:30:44 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_nbr(int n, int *check)
+int	ft_isalnum(int c)
 {
-	int	count;
-
-	count = 0;
-	if (n == -2147483648)
-		count += write(1, "-2147483648", 11);
-	else if (n < 0)
+	if ((c < 48 || c > 57) && (c < 65 || c > 90) && (c < 97 || c > 122))
 	{
-		count += ft_char('-', check);
-		count += ft_nbr(-n, check);
-	}
-	else if (n >= 10)
-	{
-		count += ft_nbr(n / 10, check);
-		count += ft_char(n % 10 + '0', check);
+		return (0);
 	}
 	else
-		count += ft_char(n % 10 + '0', check);
-	return (count);
+		return (1);
 }
