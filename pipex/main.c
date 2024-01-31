@@ -5,19 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 10:55:57 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/10 10:55:59 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/01/30 11:19:39 by fdessoy-          #+#    #+#             */
+/*   Updated: 2024/01/30 11:19:40 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_data	*data;
+    if (argc != 5)
+        return (1);
 
-	data = ft_parse_args(argc, argv);
-	pipex(data, argc, argv, envp);
-	ft_cleanup(data);
-	return (0);
+    pipex(argv, envp);
+    return (0);
 }

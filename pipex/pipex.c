@@ -5,205 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 09:40:41 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/25 09:40:47 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/01/29 11:31:00 by fdessoy-          #+#    #+#             */
+/*   Updated: 2024/01/29 11:31:02 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft/libft.a"
+#include "libft/includes/ft_printf.h"
+#include "libft/includes/libft.h"
 
-static t_data	*ft_init(void)
+void    child_process(int *fd, char **argv, char **envp)
 {
-	t_data	*data;
+    char    *path;
+    char    *cmd;
+    int     fd_in;
 
-	data = (t_data *)malloc(sizeof(t_data));
-	if (data == NULL)
-		return (NULL);
-	data->envp = NULL;
-	data->cmd_options = NULL;
-	data->cmd_options2 = NULL;
-	data->av = NULL;
-	data->fd_in = -1;
-	data->fd_out = -1;
-	data->pipe = NULL;
-	data->pids = NULL;
-	data->nb_cmds = 0;
-	data->ac = 0;
-	data->child = 0;
-	data->cmd_path = NULL;
-	data->heredoc = 0;
-	return (data);
+    fd_in = open(argv[4], O_WRONLY | O_CREAT, 0644);
+    if (fd_in == -1)
+        exit(-1);
+    if (dup2(fd_in, STDIN_FILENO) == -1)
+    {
+        perror("dup2 of child process error");
+        close(fd_in);
+        exit(-1);
+    }
+    close(fd_in);
+    close(fd[0]);
+    cmd = argv[3]
+    parse_cmds(cmd);
+    path = parse_env(argv, cmd, envp);
+    if (access(path, X_OK | F_OK))
+    {
+        if (execve(path, &argv[3], envp) == -1) // check first when done parsing
+        {
+            perror("Execve (child) error");
+            exit(-1);
+        }
+    }
 }
 
-void	ft_check_args(int argc, char **argv)
+void    parent_process(int *fd, char **argv, char **envp)
 {
-	if (argc != 5)
-	{
-		perror("Wrong number of arguments");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		if (access(argv[1], F_OK | R_OK) == -1)
-		{
-			perror("First file not accessible");
-			exit(EXIT_FAILURE);
-		}
-		if (access(argv[4], F_OK | W_OK) == -1)
-		{
-			perror("Second file not accessible");
-			exit(EXIT_FAILURE);
-		}
-	}
+    int     fd_out;
+    char    *cmd;
+    char    *path;
+
+    fd_out = open(argv[1], O_RDONLY, 0644);
+    if (fd_out == -1)
+        exit(-1);
+    if (dup2(fd_out, STDIN_FILENO) == -1)
+    {
+        perror("dup2 of parent process error");
+        close(fd_out);
+        exit(-1);
+    }
+    close(fd_out);
+    close(fd[1]);
+    cmd = argv[2];
+    parse_cmds(cmd);
+    path = parse_env(argv, cmd, envp);
+    if (access(path, X_OK | F_OK))
+    {
+        if (execve(path, &argv[2], envp) == -1) //remember to change 1st param
+        {
+            perror("Execve (parent) error");
+            exit(-1);
+        }
+    }
 }
 
-void	ft_getenv(t_data *data, char **envp)
+void    pipex(char **argv, char **envp)
 {
-	data->cmd_path = ft_getenv_value(envp, "PATH");
-	if (!data->cmd_path)
-	{
-		perror("PATH variable not found in environment");
-		exit(EXIT_FAILURE);
-	}
-}
+    int fd[2];
+    int pid;
 
-char	*ft_getenv_values(char **envp, const char *path_env)
-{
-	int		i;
-	size_t	len;
-
-	if (!envp || !path_env)
-		return (NULL);
-	len = ft_strlen(path_env);
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], path_env, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
-void	ft_parse_cmds(t_data *data, int argc, char **argv)
-{
-	char	*cmd1;
-	char	*cmd2;
-
-	cmd1 = argv[2];
-	cmd2 = argv[3];
-	data->cmd_options = ft_split(cmd1, ' ');
-	data->cmd_options2 = ft_split(cmd2, ' ');
-}
-
-void	ft_cleanup(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		free(data->cmd_options[i]);
-		free(data->cmd_options2[i]);
-		i++;
-	}
-	free(data->cmd_options);
-	free(data->cmd_options2);
-	free(data->cmd_path);
-	free(data->pipe);
-	free(data->pids);
-}
-
-t_data	*ft_parse_args(int argc, char **argv)
-{
-	t_data *data;
-
-	ft_check_args(argc, argv);
-	data = ft_init();
-	ft_parse_cmds(data, argc, argv);
-	if (argc == 5 && ft_strncmp(argv[4], "<", sizeof(size_t)) && ft_strncmp(argv[4], ">", sizeof(size_t)))
-	{
-		data->heredoc = 1;
-		data->fd_in = open(argv[4], O_RDONLY);
-	}
-	else
-		data->fd_in = open(argv[4], O_RDONLY);
-	ft_cleanup(data);
-	return (data);
-}
-
-void	pipex(t_data *data, int argc, char **argv, char **envp)
-{
-	int	i;
-
-	i = 0;
-	data = ft_parse_args(argc, argv);
-	ft_getenv(data, envp);
-	data->pipe = malloc(sizeof(int) * (data->nb_cmds * 2));
-	if (!data->pipe)
-	{
-		perror("Pipe malloc failure");
-		exit(EXIT_FAILURE);
-	}
-	
-	data->pids = malloc(sizeof(int) * data->nb_cmds);
-	if (!data->pids)
-	{
-		perror("Pids malloc failure");
-		exit(EXIT_FAILURE);
-	}
-	while (i < data->nb_cmds - 1)
-	{
-		pipe(data->pipe + i);
-		i++;
-	}
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		data->child = fork();
-		if (data->child == 0)
-		{
-			if (i == 0)
-			{
-				dup2(data->fd_in, STDIN_FILENO);
-				dup2(data->pipe[i], STDOUT_FILENO);
-			}
-			else if (i == data->nb_cmds - 1)
-			{
-				dup2(data->pipe[i - 1], STDIN_FILENO); // child process
-				dup2(data->fd_out, STDOUT_FILENO);
-			}
-			else
-			{
-				dup2(data->pipe[i - 1], STDIN_FILENO);
-				dup2(data->pipe[i], STDOUT_FILENO);
-			}
-			execve(data->cmd_path, data->cmd_options, data->envp);
-			perror("Execve failure: execution path invalid");
-			exit(EXIT_FAILURE);
-		}
-		else if (data->child < 0)
-		{
-			perror("Fork failure");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			data->pids[i] = data->child;
-			i++;
-		}
-	}
-	i = 0;
-	while (i < data->nb_cmds - 1)
-	{
-		close(data->pipe[i]);
-		i++;
-	}
-	i = 0;
-	while (i < data->nb_cmds)
-	{
-		waitpid(data->pids[i], NULL, 0);
-		i++;
-	}
+    if (pipe(fd) == -1)
+        exit(-1);
+    pid = fork();
+    if (pid < 0)
+        exit(-1);
+    if (pid != 0)
+        child_process(fd, argv, envp);
+    parent_process(fd, argv, envp);
+    close(fd[0]);
+    close(fd[1]);
+    waitpid(pid, NULL, 0);
 }

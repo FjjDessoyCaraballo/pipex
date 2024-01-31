@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 10:10:56 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/09 10:10:57 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/01/29 11:32:00 by fdessoy-          #+#    #+#             */
+/*   Updated: 2024/01/29 11:32:02 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define PIPEX_H
 
 /* libft and printf */
-# include "libft/libft.a"
+#include "libft/includes/ft_printf.h"
+#include "libft/includes/libft.h"
+#include "libft/includes/get_next_line.h"
 
 /* permitted libraries */
 /* for close, read, write, unlink, dup, dup2, execve, fork, pipe */
@@ -35,32 +37,13 @@
 /* for waitpid, wait, */
 # include <sys/wait.h>
 
-/* struct for initializing pipes (data) */
-typedef struct s_data
-{
-	char	**envp;
-	char	**cmd_options;
-	char	**cmd_options2;
-	char	**av;
-	char	*cmd_path;
-	int		heredoc;
-	int		fd_out;
-	int		fd_in;
-	int		*pipe;
-	int		*pids;
-	int		nb_cmds;
-	int		ac;
-	int		child;
-}			t_data;
-
 /* pipex functions */
-static t_data	*ft_init(void);
-void			ft_check_args(int argc, char **argv);
-void			ft_parse_cmds(t_data *data, int argc, char **argv);
-t_data			*ft_parse_args(int argc, char **argv);
-void			ft_cleanup(t_data *data);
-void			ft_getenv(t_data *data, char **envp);
-char			*ft_getenv_values(char **envp, const char *path_env);
-void			pipex(t_data *data, int argc, char **argv, char **envp);
+void    pipex(char **argv, char **envp);
+void    parent_process(int *fd, char **argv, char **envp);
+void    child_process(int *fd, char **argv, char **envp);
+char    *fetch_env_str(char **envp);
+char    *parse_env(char **argv, char *cmd, char **envp);
+char    *parse_cmds(char *cmd);
+void    free_array(char **array);
 
 #endif
