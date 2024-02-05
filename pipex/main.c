@@ -6,17 +6,15 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:19:39 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/01/30 11:19:40 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:54:24 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-    if (argc != 5)
-        return (1);
-
-    pipex(argv, envp);
-    return (0);
+	if (argc != 5)
+		return (1);
+	return (pipex(argv, envp));
 }
