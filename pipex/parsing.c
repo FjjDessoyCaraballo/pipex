@@ -21,12 +21,13 @@ void	exec(char **parsed_cmd, char **envp)
 		return ;
 	if (execve(path, parsed_cmd, envp) == -1)
 	{
-		perror("Execve (parent) error");
+		perror("Execve error");
 		free(path);
-		exit(-1);
+		exit(2);
 	}
 	free(path);
 	free_array(parsed_cmd);
+	exit(0);
 }
 
 char	*parse_env(char **parsed_cmd, char **envp)

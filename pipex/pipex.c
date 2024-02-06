@@ -12,22 +12,21 @@
 
 #include "pipex.h"
 
-void	child_process(int *fd, char **argv, char **envp)
+void	child_2(int *fd, char **argv, char **envp)
 {
-	int		fd_in;
+	int		fd_out;
 	char	**parsed_cmd;
 
-	fd_in = open(argv[4], O_WRONLY | O_CREAT, 0644);
-	if (fd_in == -1)
-		exit(-1);
-	if (dup2(fd_in, STDIN_FILENO) == -1)
-	{
-		perror("dup2 of child process error");
-		close(fd_in);
-		exit(-1);
-	}
-	close(fd_in);
+	fd_out = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd_out == -1)
+		exit(EXIT_FAILURE);
+	ft_printf("fd[0] in child_2: %i", fd[0]);
+	ft_printf("fd[1] in child_2: %i", fd[1]);
+	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
+	close(fd[1]);
 	parsed_cmd = parse_cmds(argv[3]);
 	if (parsed_cmd == NULL)
 	{
@@ -37,22 +36,21 @@ void	child_process(int *fd, char **argv, char **envp)
 	exec(parsed_cmd, envp);
 }
 
-void	parent_process(int *fd, char **argv, char **envp)
+void	child_1(int *fd, char **argv, char **envp)
 {
-	int		fd_out;
+	int		fd_in;
 	char	**parsed_cmd;
 
-	fd_out = open(argv[1], O_RDONLY, 0644);
-	if (fd_out == -1)
-		exit(-1);
-	if (dup2(fd_out, STDIN_FILENO) == -1)
-	{
-		perror("dup2 of parent process error");
-		close(fd_out);
-		exit(-1);
-	}
-	close(fd_out);
+	fd_in = open(argv[1], O_RDONLY);
+	ft_printf("fd[0] in child_1: %i", fd[0]);
+	ft_printf("fd[0] in child_1: %i", fd[1]);
+	if (fd_in == -1)
+		exit(2);
+	dup2(fd_in, STDIN_FILENO);
+	close(fd_in);
+	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
+	close(fd[0]);
 	parsed_cmd = parse_cmds(argv[2]);
 	if (parsed_cmd == NULL)
 	{
@@ -69,17 +67,17 @@ int	pipex(char **argv, char **envp)
 	int		status;
 
 	if (pipe(fd) == -1)
-		exit(-1);
+		exit(EXIT_FAILURE);
 	pid[0] = fork();
 	if (pid[0] < 0)
-		exit(-1);
-	if (pid[0] != 0)
-		child_process(fd, argv, envp);
+		exit(EXIT_FAILURE);
+	if (pid[0] == 0)
+		child_1(fd, argv, envp);
 	pid[1] = fork();
 	if (pid[1] < 0)
-		exit(-1);
-	if (pid[1] != 0)
-		parent_process(fd, argv, envp);
+		exit(EXIT_FAILURE);
+	if (pid[1] == 0)
+		child_2(fd, argv, envp);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid[0], &status, 0);

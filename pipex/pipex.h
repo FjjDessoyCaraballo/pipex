@@ -39,8 +39,8 @@
 
 /* pipex functions */
 int		pipex(char **argv, char **envp);
-void	parent_process(int *fd, char **argv, char **envp);
-void	child_process(int *fd, char **argv, char **envp);
+void	child_1(int *fd, char **argv, char **envp);
+void	child_2(int *fd, char **argv, char **envp);
 char	*fetch_env_str(char **envp);
 char	*parse_env(char **parsed_cmd, char **envp);
 char	**parse_cmds(char *cmd);
