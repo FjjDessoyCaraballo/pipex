@@ -31,19 +31,19 @@ $(EXECUTABLE): $(OBJ_FILES) $(LIBFT)
 -include $(DEP)
 
 $(LIBFT): $(LIBFT_MAKEFILE)
-	@$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(LIBFT_MAKEFILE):
 	@echo "Creating symbolic link for libft Makefile..."
-	@ln -s $(CURDIR)/$(LIBFT_MAKEFILE) $(LIBFT_MAKEFILE)
+	ln -s $(CURDIR)/$(LIBFT_MAKEFILE) $(LIBFT_MAKEFILE)
 
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@rm -f $(OBJ_FILES) $(DEP)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	rm -f $(OBJ_FILES) $(DEP)
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@rm -f $(EXECUTABLE)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(EXECUTABLE)
 
 re: fclean all
 

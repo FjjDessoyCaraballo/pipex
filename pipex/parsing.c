@@ -50,10 +50,9 @@ char	*parse_env(char **parsed_cmd, char **envp)
 			free_array(path);
 			return (c_path);
 		}
-		free(c_path);
 		i++;
+		free(c_path);
 	}
-	free_array(path);
 	return (NULL);
 }
 

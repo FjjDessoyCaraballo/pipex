@@ -6,7 +6,7 @@
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 11:31:00 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/02/05 16:54:48 by fdessoy-         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:47:44 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	child_2(int *fd, char **argv, char **envp)
 	fd_out = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
 		exit(EXIT_FAILURE);
-	ft_printf("fd[0] in child_2: %i", fd[0]);
-	ft_printf("fd[1] in child_2: %i", fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	dup2(fd_out, STDOUT_FILENO);
@@ -30,6 +28,7 @@ void	child_2(int *fd, char **argv, char **envp)
 	parsed_cmd = parse_cmds(argv[3]);
 	if (parsed_cmd == NULL)
 	{
+		perror("Bad argument\n");
 		free_array(parsed_cmd);
 		return ;
 	}
@@ -42,10 +41,11 @@ void	child_1(int *fd, char **argv, char **envp)
 	char	**parsed_cmd;
 
 	fd_in = open(argv[1], O_RDONLY);
-	ft_printf("fd[0] in child_1: %i", fd[0]);
-	ft_printf("fd[0] in child_1: %i", fd[1]);
 	if (fd_in == -1)
-		exit(2);
+	{
+		perror("Infile does not exist\n");
+		exit(EXIT_FAILURE);
+	}
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(fd[1], STDOUT_FILENO);
@@ -54,6 +54,7 @@ void	child_1(int *fd, char **argv, char **envp)
 	parsed_cmd = parse_cmds(argv[2]);
 	if (parsed_cmd == NULL)
 	{
+		perror("Bad argument\n");
 		free_array(parsed_cmd);
 		return ;
 	}
