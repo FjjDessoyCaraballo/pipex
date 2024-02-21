@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 INCFLAGS = -Iincludes
 
 # Main project files
-SRC_FILES = parsing.c pipex.c main.c
+SRC_FILES = parsing.c pipex.c main.c utils.c error.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 EXECUTABLE = pipex
 
@@ -17,9 +17,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = -I$(LIBFT_DIR)/includes
 LIBFT_LINK = -L$(LIBFT_DIR) -lft
 
-# Dependencies
-DEP = $(OBJ_FILES:.o=.d)
-
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ_FILES) $(LIBFT)
@@ -27,8 +24,6 @@ $(EXECUTABLE): $(OBJ_FILES) $(LIBFT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT_INC) -c $< -o $@
-
--include $(DEP)
 
 $(LIBFT): $(LIBFT_MAKEFILE)
 	$(MAKE) -C $(LIBFT_DIR)
