@@ -12,30 +12,30 @@
 
 #include "pipex.h"
 
-void	pid_handling(int *pid, int *fd, int *status)
+void	pid_handling(t_ppx pipex, int *status)
 {
-	if (pid[0] < 0)
+	if (pipex.pid[0] < 0)
 	{
-		waitpid(pid[1], &status[1], 0);
-		ft_closefd(fd);
+		waitpid(pipex.pid[1], &status[1], 0);
+		ft_closefd(pipex);
 		exit(127);
 	}
-	if (pid[1] < 0)
+	if (pipex.pid[1] < 0)
 	{
-		waitpid(pid[0], &status[0], 0);
-		ft_closefd(fd);
+		waitpid(pipex.pid[0], &status[0], 0);
+		ft_closefd(pipex);
 		exit(127);
 	}
 }
 
-void	ft_exec(char **parsed_cmd, char **envp)
+void	ft_exec(t_ppx pipex, char **parsed_cmd)
 {
 	char	*path;
 
-	path = parse_env(parsed_cmd, envp);
+	path = parse_env(pipex, parsed_cmd);
 	if (path == NULL)
 		return ;
-	if (execve(path, parsed_cmd, envp) == -1)
+	if (execve(path, parsed_cmd, pipex.env) == -1)
 	{
 		perror("Pipex");
 		free_array(parsed_cmd);
@@ -44,31 +44,31 @@ void	ft_exec(char **parsed_cmd, char **envp)
 	}
 }
 
-void	ft_forking(char **argv, int *fd, int *pid, int *status, char **envp)
+void	ft_forking(t_ppx pipex, char **argv, int *status)
 {
-	char 	**parsed_cmd;
+	char	**parsed_cmd;
 
-	pid[0] = fork();
-	pid_handling(pid, fd, status);
-	if (pid[0] == 0)
+	pipex.pid[0] = fork();
+	pid_handling(pipex, status);
+	if (pipex.pid[0] == 0)
 	{
 		parsed_cmd = parse_cmds(argv[2]);
-		child_1(fd, parsed_cmd, argv, envp);
+		child_1(pipex, parsed_cmd, argv);
 	}
-	pid[1] = fork();
-	pid_handling(pid, fd, status);
-	if (pid[1] == 0)
+	pipex.pid[1] = fork();
+	pid_handling(pipex, status);
+	if (pipex.pid[1] == 0)
 	{
-		waitpid(pid[0], &status[0], 0);
+		waitpid(pipex.pid[0], &status[0], 0);
 		parsed_cmd = parse_cmds(argv[3]);
-		child_2(fd, parsed_cmd, argv, envp);
+		child_2(pipex, parsed_cmd, argv);
 	}
 }
 
-void	ft_closefd(int *fd)
+void	ft_closefd(t_ppx pipex)
 {
-	close(fd[0]);
-	close(fd[1]);
+	close(pipex.fd[0]);
+	close(pipex.fd[1]);
 }
 
 void	free_array(char **array)

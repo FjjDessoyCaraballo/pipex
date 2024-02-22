@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	child_2(int *fd, char **parsed_cmd, char **argv, char **envp)
+void	child_2(t_ppx pipex, char **parsed_cmd, char **argv)
 {
 	int		fd_out;
 
@@ -23,11 +23,11 @@ void	child_2(int *fd, char **parsed_cmd, char **argv, char **envp)
 		close(fd_out);
 		exit(127);
 	}
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
+	dup2(pipex.fd[0], STDIN_FILENO);
+	close(pipex.fd[0]);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
-	close(fd[1]);
+	close(pipex.fd[1]);
 	if (parsed_cmd == NULL)
 	{
 		ft_putstr_fd("Pipex: command not found: ", 2);
@@ -35,10 +35,10 @@ void	child_2(int *fd, char **parsed_cmd, char **argv, char **envp)
 		free_array(parsed_cmd);
 		exit(127);
 	}
-	ft_exec(parsed_cmd, envp);
+	ft_exec(pipex, parsed_cmd);
 }
 
-void	child_1(int *fd, char **parsed_cmd, char **argv, char **envp)
+void	child_1(t_ppx pipex, char **parsed_cmd, char **argv)
 {
 	int		fd_in;
 
@@ -51,8 +51,8 @@ void	child_1(int *fd, char **parsed_cmd, char **argv, char **envp)
 	}
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
-	dup2(fd[1], STDOUT_FILENO);
-	ft_closefd(fd);
+	dup2(pipex.fd[1], STDOUT_FILENO);
+	ft_closefd(pipex);
 	if (parsed_cmd == NULL)
 	{
 		ft_putstr_fd("Pipex: command not found: ", 2);
@@ -60,24 +60,22 @@ void	child_1(int *fd, char **parsed_cmd, char **argv, char **envp)
 		free_array(parsed_cmd);
 		exit(127);
 	}
-	ft_exec(parsed_cmd, envp);
+	ft_exec(pipex, parsed_cmd);
 }
 
-int	pipex(char **argv, char **envp)
+int	pipex(t_ppx pipex, char **argv)
 {
-	int		fd[2];
-	pid_t	pid[2];
 	int		status[2];
 
-	if (pipe(fd) == -1)
+	if (pipe(pipex.fd) == -1)
 	{
-		perror("Pipex");
-		ft_closefd(fd);
-		exit(127);
+		perror("pipex");
+		ft_closefd(pipex);
+		exit(0);
 	}
-	ft_forking(argv, fd, pid, status, envp);
-	ft_closefd(fd);
-	waitpid(pid[0], &status[0], 0);
-	waitpid(pid[1], &status[1], 0);
+	ft_forking(pipex, argv, status);
+	ft_closefd(pipex);
+	waitpid(pipex.pid[0], &status[0], 0);
+	waitpid(pipex.pid[1], &status[1], 0);
 	return (WEXITSTATUS(status[1]));
 }

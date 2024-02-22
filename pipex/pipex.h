@@ -35,27 +35,36 @@
 /* for waitpid, wait, */
 # include <sys/wait.h>
 
-/* pipex.c */
-int		pipex(char **argv, char **envp);
-void	child_1(int *fd, char **parsed_cmd, char **argv, char **envp);
-void	child_2(int *fd, char **parsed_cmd, char **argv, char **envp);
+/* struct */
+typedef struct s_ppx
+{
+	pid_t	pid[2];
+	int		fd[2];
+	char	**env;
+}				t_ppx;
 
-/* parsing.c */ 
-char	*fetch_env_str(char **envp);
-char	*parse_env(char **parsed_cmd, char **envp);
-char	**parse_cmds(char *cmd);
+/* pipex.c */
+int		pipex(t_ppx pipex, char **argv);
+void	child_1(t_ppx pipex, char **parsed_cmd, char **argv);
+void	child_2(t_ppx pipex, char **parsed_cmd, char **argv);
+
+/* parsing.c */
+char	*parse_env(t_ppx pipex, char **parsed_cmd);
 char	*access_path(char **path, char **parsed_cmd);
+char	*fetch_env_str(t_ppx pipex);
+char	**parse_cmds(char *cmd);
 
 /* utils.c */
-
-void	ft_forking(char **argv, int *fd, int *pid, int *status, char **envp);
-void	pid_handling(int *pid, int *fd, int *status);
-void	ft_exec(char **parsed_cmd, char **envp);
+void	pid_handling(t_ppx pipex, int *status);
+void	ft_exec(t_ppx pipex, char **parsed_cmd);
+void	ft_forking(t_ppx pipex, char **argv, int *status);
+void	ft_closefd(t_ppx pipex);
 void	free_array(char **array);
-void	ft_closefd(int *fd);
 
+/* free.c */
+void	free_everything(t_ppx pipex);
 
-/* error.c */
-void	print_me(char *str, int num);
+/* easter egg */
+void	check_stupid(char **argv);
 
 #endif

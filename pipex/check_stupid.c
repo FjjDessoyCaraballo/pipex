@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_stupid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdessoy- <fdessoy-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 15:19:49 by fdessoy-          #+#    #+#             */
-/*   Updated: 2024/02/20 15:19:50 by fdessoy-         ###   ########.fr       */
+/*   Created: 2024/02/22 12:58:06 by fdessoy-          #+#    #+#             */
+/*   Updated: 2024/02/22 14:21:29 by fdessoy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	check_stupid(char **argv)
 {
-	t_ppx	ppx;
-
-	if (argc != 5)
+	if (argv[2][0] == '\0')
 	{
-		ft_putstr_fd("pipex: invalid number of commands", 2);
-		exit(1);
+		ft_putstr_fd("pipex: permission denied:", 2);
+		ft_putstr_fd("\x1b[30m<fuckoff>\x1b[0m\n", 2);
 	}
-	check_stupid(argv);
-	ppx.env = envp;
-	return (pipex(ppx, argv));
+	if (argv[3][0] == '\0')
+	{
+		ft_putstr_fd("pipex: permission denied:", 2);
+		ft_putstr_fd("\x1b[30m<fuckoff>\x1b[0m\n", 2);
+	}
+	exit(1);
 }

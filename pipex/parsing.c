@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-char	*parse_env(char **parsed_cmd, char **envp)
+char	*parse_env(t_ppx pipex, char **parsed_cmd)
 {
 	char	**path;
 	char	*allpath;
@@ -20,7 +20,7 @@ char	*parse_env(char **parsed_cmd, char **envp)
 
 	if (!access(parsed_cmd[0], F_OK | X_OK))
 		return (ft_strdup(parsed_cmd[0]));
-	allpath = fetch_env_str(envp);
+	allpath = fetch_env_str(pipex);
 	if (!allpath)
 		return (NULL);
 	path = ft_split(allpath, ':');
@@ -29,7 +29,7 @@ char	*parse_env(char **parsed_cmd, char **envp)
 	curr_path = access_path(path, parsed_cmd);
 	if (curr_path == NULL)
 	{
-		ft_putstr_fd("Pipex: command not found: ", 2);
+		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(parsed_cmd[0], 2);
 		return (NULL);
 	}
@@ -49,11 +49,11 @@ char	*access_path(char **path, char **parsed_cmd)
 		if (!access(curr_path, F_OK))
 		{
 			if (!access(curr_path, X_OK))
-				{
-					free_array(path);
-					return (curr_path);
-				}
-			ft_putstr_fd("Pipex: command not found: ", 2);
+			{
+				free_array(path);
+				return (curr_path);
+			}
+			ft_putstr_fd("pipex: command not found: ", 2);
 			ft_putendl_fd(parsed_cmd[0], 2);
 		}
 		free(curr_path);
@@ -62,17 +62,17 @@ char	*access_path(char **path, char **parsed_cmd)
 	return (NULL);
 }
 
-char	*fetch_env_str(char **envp)
+char	*fetch_env_str(t_ppx pipex)
 {
 	int	i;
 
 	i = 0;
-	if (!envp)
+	if (!pipex.env)
 		return (NULL);
-	while (envp[i])
+	while (pipex.env[i])
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5);
+		if (ft_strncmp(pipex.env[i], "PATH=", 5) == 0)
+			return (pipex.env[i] + 5);
 		i++;
 	}
 	return (NULL);
@@ -80,12 +80,14 @@ char	*fetch_env_str(char **envp)
 
 char	**parse_cmds(char *cmd)
 {
+	int		i;
 	char	**a_cmd;
 
-	a_cmd = ft_split(cmd, ' ');
+	i = 0;
+	if (ft_strncmp(cmd, "./", 2) == 0)
+		i += 2;
+	a_cmd = ft_split(cmd + i, ' ');
 	if (a_cmd == NULL)
 		return (NULL);
 	return (a_cmd);
 }
-
-

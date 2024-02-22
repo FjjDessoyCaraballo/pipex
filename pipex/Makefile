@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 INCFLAGS = -Iincludes
 
 # Main project files
-SRC_FILES = parsing.c pipex.c main.c utils.c error.c
+SRC_FILES = parsing.c pipex.c main.c utils.c check_stupid.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 EXECUTABLE = pipex
 
