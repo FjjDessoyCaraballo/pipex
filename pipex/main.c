@@ -16,12 +16,17 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_ppx	ppx;
 
+	if (!env_check(envp))
+	{
+		empty_env();
+		exit(1);
+	}
 	if (argc != 5)
 	{
 		ft_putstr_fd("pipex: invalid number of commands", 2);
 		exit(1);
 	}
-	check_stupid(argv);
 	ppx.env = envp;
 	return (pipex(ppx, argv));
+	
 }

@@ -65,6 +65,9 @@ void	free_array(char **array);
 void	free_everything(t_ppx pipex);
 
 /* easter egg */
-void	check_stupid(char **argv);
+void	check_stupid(t_ppx pipex, char **argv);
+void	empty_str(void);
+void	empty_env(void);
+int		env_check(char **envp);
 
 #endif

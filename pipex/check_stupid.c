@@ -12,17 +12,43 @@
 
 #include "pipex.h"
 
-void	check_stupid(char **argv)
+void	check_stupid(t_ppx pipex, char **argv)
 {
-	if (argv[2][0] == '\0')
+	if (argv[2][0] == '\0' && argv[3][0] == '\0')
 	{
-		ft_putstr_fd("pipex: permission denied:", 2);
-		ft_putstr_fd("\x1b[30m<fuckoff>\x1b[0m\n", 2);
+		empty_str();
+		empty_str();
+		exit(1);
 	}
-	if (argv[3][0] == '\0')
+	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 	{
-		ft_putstr_fd("pipex: permission denied:", 2);
-		ft_putstr_fd("\x1b[30m<fuckoff>\x1b[0m\n", 2);
+		empty_str();
+		exit(1);
 	}
-	exit(1);
+}
+
+int		env_check(char **envp)
+{
+	int	i;
+
+	i = 0;
+	if (!envp)
+		return (0);
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	empty_str(void)
+{
+	ft_putstr_fd("pipex: permission denied:", 2);
+}
+void	empty_env(void)
+{
+	ft_putstr_fd("pipex: no such file or directory:\n", 2);
+	ft_putstr_fd("pipex: no such file or directory:\n", 2);
 }

@@ -19,7 +19,7 @@ void	child_2(t_ppx pipex, char **parsed_cmd, char **argv)
 	fd_out = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_out == -1)
 	{
-		perror("Pipex");
+		perror("pipex");
 		close(fd_out);
 		exit(127);
 	}
@@ -30,7 +30,7 @@ void	child_2(t_ppx pipex, char **parsed_cmd, char **argv)
 	close(pipex.fd[1]);
 	if (parsed_cmd == NULL)
 	{
-		ft_putstr_fd("Pipex: command not found: ", 2);
+		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(parsed_cmd[0], 2);
 		free_array(parsed_cmd);
 		exit(127);
@@ -45,7 +45,7 @@ void	child_1(t_ppx pipex, char **parsed_cmd, char **argv)
 	fd_in = open(argv[1], O_RDONLY);
 	if (fd_in == -1)
 	{
-		perror("Pipex");
+		perror("pipex");
 		close(fd_in);
 		exit(EXIT_FAILURE);
 	}
@@ -55,7 +55,7 @@ void	child_1(t_ppx pipex, char **parsed_cmd, char **argv)
 	ft_closefd(pipex);
 	if (parsed_cmd == NULL)
 	{
-		ft_putstr_fd("Pipex: command not found: ", 2);
+		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(parsed_cmd[0], 2);
 		free_array(parsed_cmd);
 		exit(127);
@@ -67,6 +67,7 @@ int	pipex(t_ppx pipex, char **argv)
 {
 	int		status[2];
 
+	check_stupid(pipex, argv);
 	if (pipe(pipex.fd) == -1)
 	{
 		perror("pipex");
