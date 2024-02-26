@@ -67,7 +67,7 @@ int	pipex(t_ppx pipex, char **argv)
 {
 	int		status[2];
 
-	check_stupid(pipex, argv);
+	check_stupid(argv);
 	if (pipe(pipex.fd) == -1)
 	{
 		perror("pipex");

@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (!env_check(envp))
 	{
-		empty_env();
+		empty_env(argv);
 		exit(1);
 	}
 	if (argc != 5)

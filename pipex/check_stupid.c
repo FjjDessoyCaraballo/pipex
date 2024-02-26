@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	check_stupid(t_ppx pipex, char **argv)
+void	check_stupid(char **argv)
 {
 	if (argv[2][0] == '\0' && argv[3][0] == '\0')
 	{
@@ -47,8 +47,12 @@ void	empty_str(void)
 {
 	ft_putstr_fd("pipex: permission denied:", 2);
 }
-void	empty_env(void)
+void	empty_env(char **argv)
 {
-	ft_putstr_fd("pipex: no such file or directory:\n", 2);
-	ft_putstr_fd("pipex: no such file or directory:\n", 2);
+	ft_putstr_fd("pipex: no such file or directory: ", 2);
+	ft_putstr_fd(argv[2], 2);
+	ft_putstr_fd("\n", 2);
+	ft_putstr_fd("pipex: no such file or directory: ", 2);
+	ft_putstr_fd(argv[3], 2);
+	ft_putstr_fd("\n", 2);
 }
