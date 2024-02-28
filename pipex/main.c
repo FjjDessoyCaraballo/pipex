@@ -28,5 +28,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	ppx.env = envp;
 	return (pipex(ppx, argv));
-	
 }

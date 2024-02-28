@@ -17,7 +17,7 @@
 # include "libft/includes/libft.h"
 
 /* permitted libraries */
-/* for close, read, write, unlink, dup, dup2, execve, fork, pipe */
+/* for close, read, write, unlink, dup, dup2, execve, fork, pipe, access */
 # include <unistd.h>
 
 /* for open, */
@@ -29,7 +29,7 @@
 /* for malloc, free, exit */
 # include <stdlib.h>
 
-/* for perror, access */
+/* for perror */
 # include <stdio.h>
 
 /* for waitpid, wait, */
@@ -61,10 +61,7 @@ void	ft_forking(t_ppx pipex, char **argv, int *status);
 void	ft_closefd(t_ppx pipex);
 void	free_array(char **array);
 
-/* free.c */
-void	free_everything(t_ppx pipex);
-
-/* easter egg */
+/* check_stupid.c */
 void	check_stupid(char **argv);
 void	empty_str(void);
 void	empty_env(char **argv);
