@@ -4,7 +4,7 @@ The goal of this project was to imitate the behavior of the pipe operator from t
 
 ## Usage:
 **MacOs and Linux**
-- `git clone https://github.com/FjjDessoyCaraballo/get_next_line`
+- `git clone https://github.com/FjjDessoyCaraballo/Pipex`
 - Make the files
 - Use the ```./pipex infile cmd1 cmd2 outfile```
 - Profit $$$
